@@ -226,9 +226,19 @@ jobs:
                   git config user.email gutenberg@wordpress.org
 
             - name: Revert version bump commit on release branch
+              if: |
+                  github.event.inputs.version == 'stable' ||
+                  contains( steps.get_version.outputs.old_version, 'rc' )
               run: |
                   git revert --no-edit ${{ needs.bump-version.outputs.release_branch_commit }}
                   git push --set-upstream origin "${{ steps.get_version.outputs.release_branch }}"
+
+            - name: Delete release branch
+              if: |
+                  github.event.inputs.version == 'rc' &&
+                  ! contains( steps.get_version.outputs.old_version, 'rc' )
+              run: |
+                  git push origin :"${{ steps.get_version.outputs.release_branch }}"
 
             - name: Revert version bump on trunk
               if: ${{ needs.bump-version.outputs.trunk_commit }}
