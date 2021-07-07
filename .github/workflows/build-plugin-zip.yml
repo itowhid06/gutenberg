@@ -205,7 +205,7 @@ jobs:
                   path: ./release-notes.txt
 
     revert-version-bump:
-        name: Revert Version Bump
+        name: Revert version bump if build failed
         needs: [bump-version, build]
         runs-on: ubuntu-latest
         if: |
