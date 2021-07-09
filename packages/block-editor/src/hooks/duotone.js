@@ -237,14 +237,15 @@ const withDuotoneStyles = createHigherOrderComponent(
 
 		return (
 			<>
-				{ createPortal(
-					<DuotoneFilter
-						selector={ selectorsGroup }
-						id={ id }
-						values={ getValuesFromColors( values ) }
-					/>,
-					element
-				) }
+				{ element &&
+					createPortal(
+						<DuotoneFilter
+							selector={ selectorsGroup }
+							id={ id }
+							values={ getValuesFromColors( values ) }
+						/>,
+						element
+					) }
 				<BlockListBlock { ...props } className={ className } />
 			</>
 		);
